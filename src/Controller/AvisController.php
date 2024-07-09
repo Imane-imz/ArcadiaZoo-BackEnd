@@ -66,12 +66,12 @@ class AvisController extends AbstractController
     }
 
 
-    #[Route('/{$id}', name: 'edit', methods: 'PUT')]
+    #[Route('/{id}', name: 'edit', methods: 'PUT')]
     public function edit(int $id, Request $request): JsonResponse
     {
         $avis = $this->repository->findOneBy(['id' => $id]);
         if ($avis) {
-            $avis->serializer-deserialize(
+            $avis=$this->serializer->deserialize(
                 $request->getContent(),
                 Avis::class,
                 'json',
@@ -88,7 +88,7 @@ class AvisController extends AbstractController
     }
 
 
-    #[Route('/{$id}', name: 'delete', methods: 'delete')]
+    #[Route('/{id}', name: 'delete', methods: 'delete')]
     public function delete(int $id): JsonResponse
     {
         $avis = $this->repository->findOneBy(['id' => $id]);

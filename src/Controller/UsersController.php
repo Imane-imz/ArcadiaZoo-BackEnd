@@ -5,11 +5,8 @@ namespace App\Controller;
 use App\Entity\Users;
 use App\Repository\UsersRepository;
 use DateTimeImmutable;
-use Doctrine\Migrations\Configuration\Migration\JsonFile;
 use Doctrine\ORM\EntityManagerInterface;
-use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -66,12 +63,12 @@ class UsersController extends AbstractController
     }
 
 
-    #[Route('/{$id}', name: 'edit', methods: 'PUT')]
+    #[Route('/{id}', name: 'edit', methods: 'PUT')]
     public function edit(int $id, Request $request): JsonResponse
     {
         $users = $this->repository->findOneBy(['id' => $id]);
         if ($users) {
-            $users->serializer-deserialize(
+            $users=$this->serializer->deserialize(
                 $request->getContent(),
                 Users::class,
                 'json',
@@ -88,7 +85,7 @@ class UsersController extends AbstractController
     }
 
 
-    #[Route('/{$id}', name: 'delete', methods: 'delete')]
+    #[Route('/{id}', name: 'delete', methods: 'delete')]
     public function delete(int $id): JsonResponse
     {
         $users = $this->repository->findOneBy(['id' => $id]);

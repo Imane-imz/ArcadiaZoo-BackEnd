@@ -66,7 +66,7 @@ class HabitatImageController extends AbstractController
     }
 
 
-    #[Route('/{$id}', name: 'edit', methods: 'PUT')]
+    #[Route('/{id}', name: 'edit', methods: 'PUT')]
     public function edit(int $id, Request $request): JsonResponse
     {
         $habitatimage = $this->repository->findOneBy(['id' => $id]);
@@ -88,7 +88,7 @@ class HabitatImageController extends AbstractController
     }
 
 
-    #[Route('/{$id}', name: 'delete', methods: 'delete')]
+    #[Route('/{id}', name: 'delete', methods: 'delete')]
     public function delete(int $id): JsonResponse
     {
         $habitatimage = $this->repository->findOneBy(['id' => $id]);

@@ -66,12 +66,12 @@ class RapportVeterinaireController extends AbstractController
     }
 
 
-    #[Route('/{$id}', name: 'edit', methods: 'PUT')]
+    #[Route('/{id}', name: 'edit', methods: 'PUT')]
     public function edit(int $id, Request $request): JsonResponse
     {
         $rapportveterinaire = $this->repository->findOneBy(['id' => $id]);
         if ($rapportveterinaire) {
-            $rapportveterinaire->serializer-deserialize(
+            $rapportveterinaire=$this->serializer->deserialize(
                 $request->getContent(),
                 RapportVeterinaire::class,
                 'json',
@@ -88,7 +88,7 @@ class RapportVeterinaireController extends AbstractController
     }
 
 
-    #[Route('/{$id}', name: 'delete', methods: 'delete')]
+    #[Route('/{id}', name: 'delete', methods: 'delete')]
     public function delete(int $id): JsonResponse
     {
         $rapportveterinaire = $this->repository->findOneBy(['id' => $id]);
