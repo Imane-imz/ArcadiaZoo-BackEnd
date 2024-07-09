@@ -28,7 +28,7 @@ class RapportVeterinaire
 
     #[ORM\ManyToOne(inversedBy: 'rapportVeterinaires')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?users $user = null;
+    private ?user $user = null;
 
     #[ORM\ManyToOne(inversedBy: 'rapportVeterinaires')]
     #[ORM\JoinColumn(nullable: false)]

@@ -28,14 +28,6 @@ class Service
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
 
-    #[ORM\ManyToMany(targetEntity: ServiceImage::class, mappedBy: 'service')]
-    private Collection $serviceImages;
-
-    public function __construct()
-    {
-        $this->serviceImages = new ArrayCollection();
-    }
-
     public function getId(): ?int
     {
         return $this->id;
@@ -85,33 +77,6 @@ class Service
     public function setUpdatedAt(?\DateTimeImmutable $updatedAt): static
     {
         $this->updatedAt = $updatedAt;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, ServiceImage>
-     */
-    public function getServiceImages(): Collection
-    {
-        return $this->serviceImages;
-    }
-
-    public function addServiceImage(ServiceImage $serviceImage): static
-    {
-        if (!$this->serviceImages->contains($serviceImage)) {
-            $this->serviceImages->add($serviceImage);
-            $serviceImage->addService($this);
-        }
-
-        return $this;
-    }
-
-    public function removeServiceImage(ServiceImage $serviceImage): static
-    {
-        if ($this->serviceImages->removeElement($serviceImage)) {
-            $serviceImage->removeService($this);
-        }
 
         return $this;
     }

@@ -5,11 +5,8 @@ namespace App\Controller;
 use App\Entity\Habitat;
 use App\Repository\HabitatRepository;
 use DateTimeImmutable;
-use Doctrine\Migrations\Configuration\Migration\JsonFile;
 use Doctrine\ORM\EntityManagerInterface;
-use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,6 +25,11 @@ class HabitatController extends AbstractController
         private SerializerInterface $serializer,
         private UrlGeneratorInterface $urlGenerator,
     ) {
+    }
+
+    #[Route('/', name: 'index', methods: 'GET')]
+    public function index(): JsonResponse {
+        return new JsonResponse(['message' => 'Welcome to the Service API!'], Response::HTTP_OK);
     }
 
     #[Route('/new', name: 'new', methods: 'POST')]
@@ -71,7 +73,7 @@ class HabitatController extends AbstractController
     {
         $habitat = $this->repository->findOneBy(['id' => $id]);
         if ($habitat) {
-            $habitat->serializer-deserialize(
+            $habitat=$this->serializer->deserialize(
                 $request->getContent(),
                 Habitat::class,
                 'json',

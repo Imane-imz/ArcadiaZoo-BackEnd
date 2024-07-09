@@ -5,11 +5,8 @@ namespace App\Controller;
 use App\Entity\Race;
 use App\Repository\RaceRepository;
 use DateTimeImmutable;
-use Doctrine\Migrations\Configuration\Migration\JsonFile;
 use Doctrine\ORM\EntityManagerInterface;
-use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,6 +25,11 @@ class RaceController extends AbstractController
         private SerializerInterface $serializer,
         private UrlGeneratorInterface $urlGenerator,
     ) {
+    }
+
+    #[Route('/', name: 'index', methods: 'GET')]
+    public function index(): JsonResponse {
+        return new JsonResponse(['message' => 'Welcome to the Service API!'], Response::HTTP_OK);
     }
 
     #[Route('/new', name: 'new', methods: 'POST')]
@@ -66,12 +68,12 @@ class RaceController extends AbstractController
     }
 
 
-    #[Route('/{$id}', name: 'edit', methods: 'PUT')]
+    #[Route('/{id}', name: 'edit', methods: 'PUT')]
     public function edit(int $id, Request $request): JsonResponse
     {
         $race = $this->repository->findOneBy(['id' => $id]);
         if ($race) {
-            $race->serializer-deserialize(
+            $race=$this->serializer->deserialize(
                 $request->getContent(),
                 Race::class,
                 'json',
@@ -88,7 +90,7 @@ class RaceController extends AbstractController
     }
 
 
-    #[Route('/{$id}', name: 'delete', methods: 'delete')]
+    #[Route('/{id}', name: 'delete', methods: 'delete')]
     public function delete(int $id): JsonResponse
     {
         $race = $this->repository->findOneBy(['id' => $id]);

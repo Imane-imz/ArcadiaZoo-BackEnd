@@ -5,11 +5,8 @@ namespace App\Controller;
 use App\Entity\Animal;
 use App\Repository\AnimalRepository;
 use DateTimeImmutable;
-use Doctrine\Migrations\Configuration\Migration\JsonFile;
 use Doctrine\ORM\EntityManagerInterface;
-use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,6 +27,11 @@ class AnimalController extends AbstractController
     ) {
     }
 
+    #[Route('/', name: 'index', methods: 'GET')]
+    public function index(): JsonResponse {
+        return new JsonResponse(['message' => 'Welcome to the Service API!'], Response::HTTP_OK);
+    }
+    
     #[Route('/new', name: 'new', methods: 'POST')]
     public function new(Request $request): JsonResponse
     {
@@ -66,12 +68,12 @@ class AnimalController extends AbstractController
     }
 
 
-    #[Route('/{$id}', name: 'edit', methods: 'PUT')]
+    #[Route('/{id}', name: 'edit', methods: 'PUT')]
     public function edit(int $id, Request $request): JsonResponse
     {
         $animal = $this->repository->findOneBy(['id' => $id]);
         if ($animal) {
-            $animal->serializer-deserialize(
+            $animal = $this->serializer->deserialize(
                 $request->getContent(),
                 Animal::class,
                 'json',
@@ -88,7 +90,7 @@ class AnimalController extends AbstractController
     }
 
 
-    #[Route('/{$id}', name: 'delete', methods: 'delete')]
+    #[Route('/{id}', name: 'delete', methods: 'DELETE')]
     public function delete(int $id): JsonResponse
     {
         $animal = $this->repository->findOneBy(['id' => $id]);

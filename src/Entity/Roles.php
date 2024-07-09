@@ -24,12 +24,12 @@ class Roles
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
 
-    #[ORM\OneToMany(targetEntity: Users::class, mappedBy: 'role_id', orphanRemoval: true)]
-    private Collection $users;
+    #[ORM\OneToMany(targetEntity: User::class, mappedBy: 'role', orphanRemoval: true)]
+    private Collection $user;
 
     public function __construct()
     {
-        $this->users = new ArrayCollection();
+        $this->user = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -74,29 +74,29 @@ class Roles
     }
 
     /**
-     * @return Collection<int, Users>
+     * @return Collection<int, User>
      */
-    public function getUsers(): Collection
+    public function getUser(): Collection
     {
-        return $this->users;
+        return $this->user;
     }
 
-    public function addUser(Users $user): static
+    public function addUser(User $user): static
     {
-        if (!$this->users->contains($user)) {
-            $this->users->add($user);
-            $user->setRoleId($this);
+        if (!$this->user->contains($user)) {
+            $this->user->add($user);
+            $user->setRole($this);
         }
 
         return $this;
     }
 
-    public function removeUser(Users $user): static
+    public function removeUser(User $user): static
     {
-        if ($this->users->removeElement($user)) {
+        if ($this->user->removeElement($user)) {
             // set the owning side to null (unless already changed)
-            if ($user->getRoleId() === $this) {
-                $user->setRoleId(null);
+            if ($user->getRole() === $this) {
+                $user->setRole(null);
             }
         }
 

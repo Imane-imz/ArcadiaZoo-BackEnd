@@ -22,7 +22,7 @@ class Habitat
     #[ORM\Column(type: Types::TEXT)]
     private ?string $descritpion = null;
 
-    #[ORM\Column(type: Types::TEXT)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $commentaireHabitat = null;
 
     #[ORM\Column]

@@ -71,7 +71,7 @@ class HabitatImageController extends AbstractController
     {
         $habitatimage = $this->repository->findOneBy(['id' => $id]);
         if ($habitatimage) {
-            $habitatimage->serializer-deserialize(
+            $habitatimage=$this->serializer->deserialize(
                 $request->getContent(),
                 HabitatImage::class,
                 'json',

@@ -27,6 +27,11 @@ class ServiceController extends AbstractController
     ) {
     }
 
+    #[Route('/', name: 'index', methods: 'GET')]
+    public function index(): JsonResponse {
+        return new JsonResponse(['message' => 'Welcome to the Service API!'], Response::HTTP_OK);
+    }
+
     #[Route('/new', name: 'new', methods: 'POST')]
     public function new(Request $request): JsonResponse
     {
@@ -63,7 +68,7 @@ class ServiceController extends AbstractController
     }
 
 
-    #[Route('/{$id}', name: 'edit', methods: 'PUT')]
+    #[Route('/{id}', name: 'edit', methods: 'PUT')]
     public function edit(int $id, Request $request): JsonResponse
     {
         $service = $this->repository->findOneBy(['id' => $id]);
@@ -85,7 +90,7 @@ class ServiceController extends AbstractController
     }
 
 
-    #[Route('/{$id}', name: 'delete', methods: 'delete')]
+    #[Route('/{id}', name: 'delete', methods: 'DELETE')]
     public function delete(int $id): JsonResponse
     {
         $service = $this->repository->findOneBy(['id' => $id]);

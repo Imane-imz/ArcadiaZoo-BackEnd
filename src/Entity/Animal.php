@@ -38,13 +38,9 @@ class Animal
     #[ORM\JoinColumn(nullable: false)]
     private ?habitat $habitat = null;
 
-    #[ORM\ManyToMany(targetEntity: AnimalImage::class, mappedBy: 'animal')]
-    private Collection $animalImages;
-
     public function __construct()
     {
         $this->rapportVeterinaires = new ArrayCollection();
-        $this->animalImages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -150,33 +146,6 @@ class Animal
     public function setHabitat(?habitat $habitat): static
     {
         $this->habitat = $habitat;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, AnimalImage>
-     */
-    public function getAnimalImages(): Collection
-    {
-        return $this->animalImages;
-    }
-
-    public function addAnimalImage(AnimalImage $animalImage): static
-    {
-        if (!$this->animalImages->contains($animalImage)) {
-            $this->animalImages->add($animalImage);
-            $animalImage->addAnimal($this);
-        }
-
-        return $this;
-    }
-
-    public function removeAnimalImage(AnimalImage $animalImage): static
-    {
-        if ($this->animalImages->removeElement($animalImage)) {
-            $animalImage->removeAnimal($this);
-        }
 
         return $this;
     }

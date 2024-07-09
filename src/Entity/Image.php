@@ -28,17 +28,9 @@ class Image
     #[ORM\OneToMany(targetEntity: HabitatImage::class, mappedBy: 'image', orphanRemoval: true)]
     private Collection $habitatImages;
 
-    #[ORM\ManyToMany(targetEntity: AnimalImage::class, mappedBy: 'image')]
-    private Collection $animalImages;
-
-    #[ORM\ManyToMany(targetEntity: ServiceImage::class, mappedBy: 'image')]
-    private Collection $serviceImages;
-
     public function __construct()
     {
         $this->habitatImages = new ArrayCollection();
-        $this->animalImages = new ArrayCollection();
-        $this->serviceImages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -107,60 +99,6 @@ class Image
             if ($habitatImage->getImage() === $this) {
                 $habitatImage->setImage(null);
             }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, AnimalImage>
-     */
-    public function getAnimalImages(): Collection
-    {
-        return $this->animalImages;
-    }
-
-    public function addAnimalImage(AnimalImage $animalImage): static
-    {
-        if (!$this->animalImages->contains($animalImage)) {
-            $this->animalImages->add($animalImage);
-            $animalImage->addImage($this);
-        }
-
-        return $this;
-    }
-
-    public function removeAnimalImage(AnimalImage $animalImage): static
-    {
-        if ($this->animalImages->removeElement($animalImage)) {
-            $animalImage->removeImage($this);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, ServiceImage>
-     */
-    public function getServiceImages(): Collection
-    {
-        return $this->serviceImages;
-    }
-
-    public function addServiceImage(ServiceImage $serviceImage): static
-    {
-        if (!$this->serviceImages->contains($serviceImage)) {
-            $this->serviceImages->add($serviceImage);
-            $serviceImage->addImage($this);
-        }
-
-        return $this;
-    }
-
-    public function removeServiceImage(ServiceImage $serviceImage): static
-    {
-        if ($this->serviceImages->removeElement($serviceImage)) {
-            $serviceImage->removeImage($this);
         }
 
         return $this;

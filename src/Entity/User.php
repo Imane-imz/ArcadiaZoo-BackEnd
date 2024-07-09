@@ -36,6 +36,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $apiToken;
 
+    #[ORM\ManyToOne(inversedBy: 'user')]
+    private ?roles $role = null;
+
     /** @throws \Exception */
 
     public function __construct()
@@ -164,6 +167,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setApiToken(string $apiToken): static
     {
         $this->apiToken = $apiToken;
+
+        return $this;
+    }
+
+    public function getRole(): ?roles
+    {
+        return $this->role;
+    }
+
+    public function setRole(?roles $role): static
+    {
+        $this->role = $role;
 
         return $this;
     }

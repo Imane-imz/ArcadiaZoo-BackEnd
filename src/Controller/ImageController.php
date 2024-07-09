@@ -5,11 +5,8 @@ namespace App\Controller;
 use App\Entity\Image;
 use App\Repository\ImageRepository;
 use DateTimeImmutable;
-use Doctrine\Migrations\Configuration\Migration\JsonFile;
 use Doctrine\ORM\EntityManagerInterface;
-use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Exception\BadRequestException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -71,7 +68,7 @@ class ImageController extends AbstractController
     {
         $image = $this->repository->findOneBy(['id' => $id]);
         if ($image) {
-            $image->serializer-deserialize(
+            $image=$this->serializer->deserialize(
                 $request->getContent(),
                 Image::class,
                 'json',
