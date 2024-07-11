@@ -6,6 +6,9 @@ use App\Repository\RaceRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\MaxDepth;
+
 
 #[ORM\Entity(repositoryClass: RaceRepository::class)]
 class Race
@@ -13,18 +16,23 @@ class Race
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['race'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 32)]
+    #[Groups(['race'])]
     private ?string $label = null;
 
     #[ORM\Column]
+    #[Groups(['race'])]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['race'])]
     private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\OneToMany(targetEntity: Animal::class, mappedBy: 'race', orphanRemoval: true)]
+    #[MaxDepth(1)]
     private Collection $animals;
 
     public function __construct()

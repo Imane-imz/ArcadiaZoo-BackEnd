@@ -20,7 +20,7 @@ class Habitat
     private ?string $nom = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    private ?string $descritpion = null;
+    private ?string $description = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $commentaireHabitat = null;
@@ -60,14 +60,14 @@ class Habitat
         return $this;
     }
 
-    public function getDescritpion(): ?string
+    public function getDescription(): ?string
     {
-        return $this->descritpion;
+        return $this->description;
     }
 
-    public function setDescritpion(string $descritpion): static
+    public function setDescription(string $description): static
     {
-        $this->descritpion = $descritpion;
+        $this->description = $description;
 
         return $this;
     }

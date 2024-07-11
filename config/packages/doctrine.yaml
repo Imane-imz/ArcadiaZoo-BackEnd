@@ -8,6 +8,8 @@ doctrine:
         use_savepoints: true
     orm:
         auto_generate_proxy_classes: true
+        proxy_namespace: 'Proxies'
+        proxy_dir: '%kernel.cache_dir%/doctrine/orm/Proxies'
         naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
         auto_mapping: true
         mappings:
